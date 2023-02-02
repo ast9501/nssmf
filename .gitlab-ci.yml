@@ -22,12 +22,12 @@ stages:          # List of stages for jobs, and their order of execution
   - deploy
 
 include:
-  - remote: 'https://api.r2devops.io/job/r/r2devops-bot/docker_build/2.0.0.yaml'
+  - remote: "https://api.r2devops.io/job/r/r2devops-bot/docker_build/2.0.0.yaml"
 
 docker_build:
   stage: build
   variables:
-    COMMIT_CREATE_LATEST : true
+    COMMIT_CREATE_LATEST: 'true'
 #build-job:
 #  stage: build
 #  image:
