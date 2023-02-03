@@ -69,9 +69,9 @@ helm-package:
   only:
     refs:
       - main
-    changes:
-      - .gitlab-ci.yaml
-      - helm/**/*
+    #changes:
+    #  - .gitlab-ci.yaml
+    #  - helm/**/*
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
