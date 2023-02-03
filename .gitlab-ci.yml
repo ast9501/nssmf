@@ -55,19 +55,22 @@ helm-package:
     HELM_CHART_ROOT: helm
   before_script:
     - apk add git
-    - helm plugin install --version=v0.9.0 https://github.com/chartmuseum/helm-push.git
+    - helm plugin install --version=v0.10.3 https://github.com/chartmuseum/helm-push.git
     - >
       helm repo add ${CHART}
       --username ${CI_REGISTRY_USER}
       --password ${CI_REGISTRY_PASSWORD}
       ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/stable
   script:
+    - helm repo update
+    - helm repo list
     - helm package ${HELM_CHART_ROOT}/${CHART}
-    - helm push ${CHART}*.tgz ${CHART}
+    - helm cm-push ${CHART}*.tgz ${CHART}
   only:
     refs:
       - main
     changes:
+      - .gitlab-ci.yaml
       - helm/**/*
 
 unit-test-job:   # This job runs in the test stage.
