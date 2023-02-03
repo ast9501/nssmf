@@ -18,6 +18,7 @@
 
 stages:          # List of stages for jobs, and their order of execution
   - build
+  - helm-publish
   - test
   - deploy
 
@@ -41,6 +42,32 @@ docker_build:
       #--destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
   #rules:
   #  - if: $CI_COMMIT_TAG
+
+helm-package:
+  stage: helm-publish
+  image:
+    name: alpine/helm:3.10.2
+    entrypoint: [""]
+    #tags: 
+    #- minikube    
+  variables:
+    CHART: example-chart
+  before_script:
+    - apk add git
+    - helm plugin install --version=v0.9.0 https://github.com/chartmuseum/helm-push.git
+    - >
+      helm repo add ${CHART}
+      --username ${CI_REGISTRY_USER}
+      --password ${CI_REGISTRY_PASSWORD}
+      ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/stable
+  script:
+    - helm package ${CHART}
+    - helm push ${CHART}*.tgz ${CHART}
+  only:
+    refs:
+      - main
+    changes:
+      - helm/**/*
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
