@@ -44,7 +44,7 @@ func AddService(engine *gin.Engine) *gin.RouterGroup {
 
 // TODO: Add swagger commit here
 func Index(C *gin.Context) {
-	c.String(http.StatusOK, "Hello User!")
+	C.String(http.StatusOK, "Hello User!")
 }
 
 var routes = Routes{
