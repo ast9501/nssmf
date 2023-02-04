@@ -1,21 +1,40 @@
 package main
 
 import (
+	"log"
+	"net"
 	"os"
 
+	"github.com/ast9501/nssmf/docs"
 	nssmf_service "github.com/ast9501/nssmf/pkg/service"
 	"github.com/urfave/cli/v2"
 )
 
 var NSSMF = &nssmf_service.NSSMF{}
 
+//	@title			O-RAN NSSMF api doc
+//	@version		1.0
+//	@description	winlab O-RAN NSSMF
+
+//	@contact.name	ast9501
+//	@contact.email	ast9501.cs10@nycu.edu.tw
+
+//	@license.name	Apache 2.0
+//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+//
+// schemes http
 func main() {
 	app := cli.NewApp()
 	app.Name = "nssmf"
 	app.Usage = "3GPP NSSMF function for O-RAN"
 	app.Action = action
+	// TODO: Add command flag
 	//app.Flags = NSSF.GetCliCmd()
+
+	// generate host ip dynamicly for api doc
+	docs.SwaggerInfo.Host = GetOutboundIP().String() + ":8000"
 	if err := app.Run(os.Args); err != nil {
+		// TODO: Add logger printer
 		print("Errpr in args")
 		//logger.AppLog.Errorf("NSSMF Run Error: %v\n", err)
 	}
@@ -25,4 +44,17 @@ func action(c *cli.Context) error {
 	NSSMF.Start()
 
 	return nil
+}
+
+// generate server outbound IP for api doc
+func GetOutboundIP() net.IP {
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+
+	return localAddr.IP
 }

@@ -42,7 +42,10 @@ func AddService(engine *gin.Engine) *gin.RouterGroup {
 	return group
 }
 
-// TODO: Add swagger commit here
+// @Summary		root path
+// @Description	health check for api server
+// @Success		200
+// @Router		/nssmf/v1/ [get]
 func Index(C *gin.Context) {
 	C.String(http.StatusOK, "Hello User!")
 }

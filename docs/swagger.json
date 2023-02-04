@@ -1,0 +1,29 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "winlab O-RAN NSSMF",
+        "title": "O-RAN NSSMF api doc",
+        "contact": {
+            "name": "ast9501",
+            "email": "ast9501.cs10@nycu.edu.tw"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/nssmf/v1/": {
+            "get": {
+                "description": "health check for api server",
+                "summary": "root path",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    }
+}
