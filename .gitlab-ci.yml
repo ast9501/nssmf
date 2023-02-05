@@ -92,6 +92,7 @@ lint:
   artifacts:
     reports:
       codequality: gl-code-quality-report.xml
+      junit: gl-code-quality-report.xml
     paths:
       - gl-code-quality-report.xml
 
