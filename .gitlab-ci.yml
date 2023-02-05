@@ -91,7 +91,7 @@ golint:
     reports:
       codequality: report-golint.xml
     paths:
-      - reports/report-golint.xml
+      - reports/
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
