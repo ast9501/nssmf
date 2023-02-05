@@ -84,14 +84,9 @@ golint:
   stage: tests
   variables:
     GOLINT_CONFIG: .golangci.yml
-    GOLINT_REPORTS_DIRECTORY: .
+    GOLINT_REPORTS_DIRECTORY: reports
     GOLINT_OUTPUT_FORMAT: junit-xml,code-climate
     IMAGE_TAG: v1.50.1
-  artifacts:
-    reports:
-      codequality: report-golint.xml
-    paths:
-      - report-golint.xml
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
