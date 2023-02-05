@@ -19,11 +19,12 @@
 stages:          # List of stages for jobs, and their order of execution
   - build
   - helm-publish
-  - tests
+  - test
   - deploy
 
 include:
   - remote: "https://api.r2devops.io/job/r/r2devops-bot/docker_build/2.0.0.yaml"
+  - template: Code-Quality.gitlab-ci.yml
 
 docker_build:
   stage: build
@@ -74,14 +75,14 @@ helm-package:
     #  - helm/**/*
 
 unit-test-job:   # This job runs in the test stage.
-  stage: tests   # It only starts when the job in the build stage completes successfully.
+  stage: test   # It only starts when the job in the build stage completes successfully.
   script:
     - echo "No defined tests, skip in 3 sec"
     - sleep 3
 
 lint:
   image: registry.gitlab.com/gitlab-org/gitlab-build-images:golangci-lint-alpine
-  stage: tests
+  stage: test
   script:
     # Use default .golangci.yml file from the image if one is not present in the project root.
     - '[ -e .golangci.yml ] || cp /golangci/.golangci.yml .'
@@ -92,7 +93,6 @@ lint:
   artifacts:
     reports:
       codequality: gl-code-quality-report.xml
-      junit: gl-code-quality-report.xml
     paths:
       - gl-code-quality-report.xml
 
