@@ -40,7 +40,7 @@ output:
   # Example: "checkstyle:report.xml,json:stdout,colored-line-number"
   #
   # Default: colored-line-number
-  format: junit-xml:reports/report-golint.xml,colored-line-number
+  format: junit-xml:report-golint.xml,json:report-golint.json,colored-line-number
   # Print lines of code with issue.
   # Default: true
   print-issued-lines: true
