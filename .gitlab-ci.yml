@@ -89,12 +89,15 @@ lint:
     # Write the code coverage report to gl-code-quality-report.json
     # and print linting issues to stdout in the format: path/to/file:line description
     # remove `--issues-exit-code 0` or set to non-zero to fail the job if linting issues are detected
-    - golangci-lint run --issues-exit-code 0 --out-format code-climate,json:gl-code-quality-report.json
+    - golangci-lint run --issues-exit-code 0 --out-format code-climate,json:gl-code-quality-report.json,checkstyle:gl-code-quality-report.xml
   artifacts:
     reports:
       codequality: gl-code-quality-report.json
+      junit: gl-code-quality-report.xml
+
     paths:
       - gl-code-quality-report.json
+      - gl-code-quality-report.xml
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
