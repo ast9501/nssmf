@@ -24,7 +24,6 @@ stages:          # List of stages for jobs, and their order of execution
 
 include:
   - remote: "https://api.r2devops.io/job/r/r2devops-bot/docker_build/2.0.0.yaml"
-  - remote: "https://api.r2devops.io/job/r/r2devops-bot/golint/1.2.0.yaml"
 
 docker_build:
   stage: build
@@ -80,13 +79,21 @@ unit-test-job:   # This job runs in the test stage.
     - echo "No defined tests, skip in 3 sec"
     - sleep 3
 
-golint:
+lint:
+  image: registry.gitlab.com/gitlab-org/gitlab-build-images:golangci-lint-alpine
   stage: tests
-  variables:
-    GOLINT_CONFIG: .golangci.yml
-    GOLINT_REPORTS_DIRECTORY: reports
-    GOLINT_OUTPUT_FORMAT: junit-xml,code-climate
-    IMAGE_TAG: v1.50.1
+  script:
+    # Use default .golangci.yml file from the image if one is not present in the project root.
+    - '[ -e .golangci.yml ] || cp /golangci/.golangci.yml .'
+    # Write the code coverage report to gl-code-quality-report.json
+    # and print linting issues to stdout in the format: path/to/file:line description
+    # remove `--issues-exit-code 0` or set to non-zero to fail the job if linting issues are detected
+    - golangci-lint run --issues-exit-code 0 --out-format code-climate | tee gl-code-quality-report.json | jq -r '.[] | "\(.location.path):\(.location.lines.begin) \(.description)"'
+  artifacts:
+    reports:
+      codequality: gl-code-quality-report.json
+    paths:
+      - gl-code-quality-report.json
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
