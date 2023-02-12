@@ -1,0 +1,19 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = req_ext
+prompt = no
+
+[req_distinguished_name]
+C   = TW
+ST  = Taiwan
+L   = Hsinchu
+O   = NYCU
+OU  = winlab
+CN  = nssmf.winlab.nycu
+
+[req_ext]
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = 192.168.0.166
+DNS.1 = nssmf.winlab.nycu
