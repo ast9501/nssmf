@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
 	"os"
@@ -28,8 +29,7 @@ func main() {
 	app.Name = "nssmf"
 	app.Usage = "3GPP NSSMF function for O-RAN"
 	app.Action = action
-	// TODO: Add command flag
-	//app.Flags = NSSF.GetCliCmd()
+	app.Flags = NSSMF.GetCliCmd()
 
 	// generate host ip dynamicly for api doc
 	docs.SwaggerInfo.Host = GetOutboundIP().String() + ":8000"
@@ -41,7 +41,14 @@ func main() {
 }
 
 func action(c *cli.Context) error {
-	NSSMF.Start()
+	if c.String("c") == "" {
+		fmt.Println("config is null!")
+		return nil
+	}
+	// TODO: Add log: print config file path
+	NSSMF.Initialize(c.String("c"))
+
+	NSSMF.Start(NSSMF.Config.Cert, NSSMF.Config.Key)
 
 	return nil
 }
