@@ -17,6 +17,8 @@ type Config struct {
 	DMAAPReadTopic  string `mapstructure:"DMAAP_READ_TOPIC"`
 	Cert            string `mapstructure:"TLS_CERT"`
 	Key             string `mapstructure:"TLS_KEY"`
+	Addr            string `mapstructure:"NSSMF_BIND_ADDR"`
+	Port            string `mapstructure:"NSSMF_BIND_PORT"`
 }
 
 type NSSMF struct {
@@ -40,6 +42,9 @@ func (nssmf *NSSMF) Initialize(configPath string) {
 	// derive cert path
 	nssmf.Config.Cert = configPath + "/" + nssmf.Config.Cert
 	nssmf.Config.Key = configPath + "/" + nssmf.Config.Key
+
+	// derive port binding
+	nssmf.Config.Port = ":" + nssmf.Config.Port
 }
 
 // schemes http
@@ -54,7 +59,7 @@ func (nssmf *NSSMF) Start(certPath string, keyPath string) {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// TODO: Load server binding port from conifg
-	router.RunTLS(":8000", certPath, keyPath)
+	router.RunTLS(nssmf.Config.Port, certPath, keyPath)
 }
 
 func (n *NSSMF) LoadConfig(path string) (config Config, err error) {

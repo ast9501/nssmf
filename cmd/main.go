@@ -31,13 +31,13 @@ func main() {
 	app.Action = action
 	app.Flags = NSSMF.GetCliCmd()
 
-	// generate host ip dynamicly for api doc
-	docs.SwaggerInfo.Host = GetOutboundIP().String() + ":8000"
 	if err := app.Run(os.Args); err != nil {
 		// TODO: Add logger printer
 		print("Errpr in args")
 		//logger.AppLog.Errorf("NSSMF Run Error: %v\n", err)
 	}
+	// generate host ip dynamicly for api doc
+	docs.SwaggerInfo.Host = NSSMF.Config.Addr + NSSMF.Config.Port
 }
 
 func action(c *cli.Context) error {
