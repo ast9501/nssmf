@@ -3,6 +3,8 @@ package management
 import (
 	"net/http"
 
+	"github.com/ast9501/nssmf/pkg/logger"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -48,6 +50,7 @@ func AddService(engine *gin.Engine) *gin.RouterGroup {
 // @Router		/nssmf/v1/ [get]
 func Index(C *gin.Context) {
 	C.String(http.StatusOK, "Hello User!")
+	logger.HandlerLog.Infoln("Receive Health Check Request From: ", C.ClientIP())
 }
 
 var routes = Routes{
