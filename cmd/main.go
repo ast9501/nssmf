@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/ast9501/nssmf/docs"
+	"github.com/ast9501/nssmf/pkg/logger"
 	nssmf_service "github.com/ast9501/nssmf/pkg/service"
 	"github.com/urfave/cli/v2"
 )
@@ -33,11 +34,12 @@ func main() {
 
 	if err := app.Run(os.Args); err != nil {
 		// TODO: Add logger printer
-		print("Errpr in args")
-		//logger.AppLog.Errorf("NSSMF Run Error: %v\n", err)
+		logger.InitLog.Errorf("NSSMF Run Error: %v\n", err)
 	}
 	// generate host ip dynamicly for api doc
 	docs.SwaggerInfo.Host = NSSMF.Config.Addr + NSSMF.Config.Port
+	logger.InitLog.Debugln("Generate swagger api doc target server location: ", docs.SwaggerInfo.Host)
+
 }
 
 func action(c *cli.Context) error {
