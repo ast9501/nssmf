@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/ast9501/nssmf/internal/service/management"
+	"github.com/ast9501/nssmf/pkg/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	swaggerFiles "github.com/swaggo/files"
@@ -50,7 +51,7 @@ func (nssmf *NSSMF) Initialize(configPath string) {
 // schemes http
 func (nssmf *NSSMF) Start(certPath string, keyPath string) {
 	// TODO: external function call for customize gin engine loger
-	router := gin.New()
+	router := gin.Default()
 
 	// Add service to router
 	management.AddService(router)
@@ -76,5 +77,7 @@ func (n *NSSMF) LoadConfig(path string) (config Config, err error) {
 
 	err = viper.Unmarshal(&config)
 	n.Config = config
+	logger.InitLog.Infoln("Load config successful!")
+
 	return
 }
