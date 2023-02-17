@@ -11,12 +11,12 @@ make all
 ```
 ./nssmf -c config
 ```
-- `-c`: config directory location
+- `-c`: path of config directory
 
 ### Test
 * Health check
 ```
-https://<IP>:<port>/nssmf/v1/
+curl https://<IP>:<port>/nssmf/v1/
 ```
 
 ## Support
