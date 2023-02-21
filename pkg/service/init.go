@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/ast9501/nssmf/internal/service/management"
 	"github.com/ast9501/nssmf/pkg/logger"
+	"github.com/ast9501/nssmf/pkg/nss"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	swaggerFiles "github.com/swaggo/files"
@@ -55,6 +56,7 @@ func (nssmf *NSSMF) Start(certPath string, keyPath string) {
 
 	// Add service to router
 	management.AddService(router)
+	nss.AddService(router)
 
 	// api server by swagger in debug mode
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
