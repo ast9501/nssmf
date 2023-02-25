@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/ast9501/nssmf/internal/service/management"
+	"github.com/ast9501/nssmf/pkg/db"
 	"github.com/ast9501/nssmf/pkg/logger"
 	"github.com/ast9501/nssmf/pkg/nss"
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,10 @@ type Config struct {
 	Key             string `mapstructure:"TLS_KEY"`
 	Addr            string `mapstructure:"NSSMF_BIND_ADDR"`
 	Port            string `mapstructure:"NSSMF_BIND_PORT"`
+	DbUrl           string `mapstructure:"DB_URL"`
+	DbName          string `mapstructure:"DB_NAME"`
+	DbUser          string `mapstructure:"DB_USER"`
+	DbPasswd        string `mapstructure:"DB_PASSWD"`
 }
 
 type NSSMF struct {
@@ -47,6 +52,9 @@ func (nssmf *NSSMF) Initialize(configPath string) {
 
 	// derive port binding
 	nssmf.Config.Port = ":" + nssmf.Config.Port
+
+	// Init Database
+	db.Init(nssmf.Config.DbUrl, nssmf.Config.DbName, nssmf.Config.DbUser, nssmf.Config.DbPasswd)
 }
 
 // schemes http
