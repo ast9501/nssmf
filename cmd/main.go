@@ -34,11 +34,11 @@ func main() {
 
 	if err := app.Run(os.Args); err != nil {
 		// TODO: Add logger printer
-		logger.InitLog.Errorf("NSSMF Run Error: %v\n", err)
+		logger.AppLog.Errorf("NSSMF Run Error: %v\n", err)
 	}
 	// generate host ip dynamicly for api doc
 	docs.SwaggerInfo.Host = NSSMF.Config.Addr + NSSMF.Config.Port
-	logger.InitLog.Debugln("Generate swagger api doc target server location: ", docs.SwaggerInfo.Host)
+	logger.AppLog.Debugln("Generate swagger api doc target server location: ", docs.SwaggerInfo.Host)
 
 }
 

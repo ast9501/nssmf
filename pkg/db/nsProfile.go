@@ -7,7 +7,7 @@ func CreateAssocaiteNsTable(profileId string) (err error) {
 	_, err = Db.Exec("CREATE TABLE AssociateNsTb_" + profileId + " (NsId varchar(20))")
 
 	if err != nil {
-		logger.AppLog.Errorln("Failed to create AssociateNsTable: ", err)
+		logger.DbLog.Errorln("Failed to create AssociateNsTable: ", err)
 	}
 	return
 }

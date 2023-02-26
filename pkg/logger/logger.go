@@ -9,10 +9,14 @@ import (
 )
 
 var (
-	log        *logrus.Logger
-	InitLog    *logrus.Entry
-	AppLog     *logrus.Entry
-	HandlerLog *logrus.Entry
+	log       *logrus.Logger
+	AppLog    *logrus.Entry
+	NssLog    *logrus.Entry
+	GinLog    *logrus.Entry
+	DbLog     *logrus.Entry
+	ConfigLog *logrus.Entry
+	DmaapLog  *logrus.Entry
+	NsLog     *logrus.Entry
 )
 
 func init() {
@@ -26,26 +30,30 @@ func init() {
 		FieldsOrder:     []string{"component", "category"},
 	}
 
-	InitLog = log.WithFields(logrus.Fields{"component": "RAN NSSMF", "category": "Init"})
 	AppLog = log.WithFields(logrus.Fields{"component": "RAN NSSMF", "category": "App"})
-	HandlerLog = log.WithFields(logrus.Fields{"component": "RAN NSSMF", "category": "Hdlr"})
+	NssLog = log.WithFields(logrus.Fields{"component": "RAN NSSMF", "category": "NS Subnet Provider"})
+	GinLog = log.WithFields(logrus.Fields{"component": "RAN NSSMF", "category": "Gin"})
+	DbLog = log.WithFields(logrus.Fields{"component": "RAN NSSMF", "category": "DB"})
+	DmaapLog = log.WithFields(logrus.Fields{"component": "RAN NSSMF", "category": "DMaaP Consumer"})
+	ConfigLog = log.WithFields(logrus.Fields{"component": "RAN NSSMF", "category": "ConfigLoader"})
+	NsLog = log.WithFields(logrus.Fields{"component": "RAN NSSMF", "category": "Network Service Provider"})
 
-	InitLog.Info("Logger init")
+	AppLog.Info("Logger init")
 	AppLog.Info("Get loglevel setting from env var (LogLevel = WARN|DEBUG|INFO)")
 	log.SetLevel(getLoglevel())
-	InitLog.Infoln("Logger init success")
+	AppLog.Infoln("Logger init success")
 }
 
 func getLoglevel() (level logrus.Level) {
 	lv := os.Getenv("LogLevel")
 	if lv == "WARN" {
-		InitLog.Infoln("Set loglevel to Warn")
+		AppLog.Infoln("Set loglevel to Warn")
 		level = logrus.WarnLevel
 	} else if lv == "DEBUG" {
-		InitLog.Infoln("Set loglevel to Debug")
+		AppLog.Infoln("Set loglevel to Debug")
 		level = logrus.DebugLevel
 	} else {
-		InitLog.Infoln("Set loglevel to Info (default)")
+		AppLog.Infoln("Set loglevel to Info (default)")
 		level = logrus.InfoLevel
 	}
 	return

@@ -50,7 +50,7 @@ func AddService(engine *gin.Engine) *gin.RouterGroup {
 // @Router		/nssmf/v1/ [get]
 func Index(C *gin.Context) {
 	C.String(http.StatusOK, "Hello User!")
-	logger.HandlerLog.Infoln("Receive Health Check Request From: ", C.ClientIP())
+	logger.GinLog.Infoln("Receive Health Check Request From: ", C.ClientIP())
 }
 
 var routes = Routes{

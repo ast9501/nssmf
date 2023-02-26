@@ -52,7 +52,7 @@ func AddService(engine *gin.Engine) *gin.RouterGroup {
 func AllocateNssi(C *gin.Context) {
 	var requestBody NetworkSliceSubnetProfileReq
 	if err := C.BindJSON(&requestBody); err != nil {
-		logger.HandlerLog.Errorln("Failed to bind AllocateNssi.Request to &SliceProfile: ", err)
+		logger.GinLog.Errorln("Failed to bind AllocateNssi.Request to &SliceProfile: ", err)
 	}
 	id, err := CreateNssProfile(requestBody.SNssaiList, requestBody.PlmnIdList, requestBody.PerfReq)
 	if err != nil {

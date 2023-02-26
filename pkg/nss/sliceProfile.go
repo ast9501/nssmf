@@ -125,18 +125,18 @@ func createPerreqList(profileId string, p []PerReq) (err error) {
 func DeleteNssProfile(profileId string) (err error) {
 	err = db.DropNssProfile(profileId)
 	if err != nil {
-		logger.AppLog.Errorln("Failed to Delete NssProfile: ")
+		logger.NssLog.Errorln("Failed to Delete NssProfile: ")
 		return
 	}
 
 	err = db.DropAssociateNsTable(profileId)
 	if err != nil {
-		logger.AppLog.Errorln("Failed to Delete NssProfile: ")
+		logger.NssLog.Errorln("Failed to Delete NssProfile: ")
 		return
 	}
 	err = db.CleanAssociateTable(profileId)
 	if err != nil {
-		logger.AppLog.Errorln("Failed to Delete NssProfile: ")
+		logger.NssLog.Errorln("Failed to Delete NssProfile: ")
 		return
 	}
 	return

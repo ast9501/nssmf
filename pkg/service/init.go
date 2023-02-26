@@ -87,7 +87,7 @@ func (n *NSSMF) LoadConfig(path string) (config Config, err error) {
 
 	err = viper.Unmarshal(&config)
 	n.Config = config
-	logger.InitLog.Infoln("Load config successful!")
+	logger.ConfigLog.Infoln("Load config successful!")
 
 	return
 }
