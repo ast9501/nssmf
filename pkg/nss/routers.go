@@ -50,8 +50,16 @@ func AddService(engine *gin.Engine) *gin.RouterGroup {
 // @param		SliceProfileId body NetworkSliceSubnetProfileReq true "SliceProfile"
 // @Router		/ObjectManagement/NSS/SliceProfiles [post]
 func AllocateNssi(C *gin.Context) {
-	C.String(http.StatusOK, "Hello User!")
-	logger.HandlerLog.Infoln("Receive Health Check Request From: ", C.ClientIP())
+	var requestBody NetworkSliceSubnetProfileReq
+	if err := C.BindJSON(&requestBody); err != nil {
+		logger.HandlerLog.Errorln("Failed to bind AllocateNssi.Request to &SliceProfile: ", err)
+	}
+	id, err := CreateNssProfile(requestBody.SNssaiList, requestBody.PlmnIdList, requestBody.PerfReq)
+	if err != nil {
+		C.JSON(http.StatusInternalServerError, CreateNssProfileRes{NssProfileId: id})
+	} else {
+		C.JSON(http.StatusCreated, CreateNssProfileRes{NssProfileId: id})
+	}
 }
 
 // @Summary		deallocate nssi
@@ -62,8 +70,12 @@ func AllocateNssi(C *gin.Context) {
 // @Router		/ObjectManagement/NSS/SliceProfiles/{SliceProfileId} [delete]
 func DeallocateNssi(C *gin.Context) {
 	sliceProfileId := C.Param("SliceProfileId")
-	C.String(http.StatusOK, "Deallocate Nssi, "+sliceProfileId)
-	logger.HandlerLog.Infoln("Receive Health Check Request From: ", C.ClientIP())
+	err := DeleteNssProfile(sliceProfileId)
+	if err != nil {
+		C.Status(http.StatusInternalServerError)
+	} else {
+		C.Status(http.StatusOK)
+	}
 }
 
 var routes = Routes{
