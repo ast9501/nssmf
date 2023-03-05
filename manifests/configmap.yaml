@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nssmf-cfg
+data:
+  # file-like keys
+  nssmf.env: |
+    # DMAAP setting
+    DMAAP_SERVER=192.168.0.149
+    DMAAP_PORT=3904
+    DMAAP_WRITE_TOPIC=NSSMF-WRITE
+    DMAAP_READ_TOPIC=NSSMF-READ
+
+    # TLS file path (related to config directory) for https connection
+    TLS_CERT=TLS/nssmf.nycu.crt
+    TLS_KEY=TLS/nssmf.nycu.key
+
+    # NSSMF setting
+    NSSMF_BIND_IPV4_ADDR=192.168.0.149 # for swagger api doc testing only
+    NSSMF_BIND_PORT=30101
+
+    # Network Slice Subnet Orchestractor
+    NSSO_URL=
+    ## NSSO_TYPE = dmaap || nfvo
+    NSSO_TYPE=
+
+    # Database
+    DB_URL=mariadb.default:3306
+    DB_NAME=NSSMF
+    DB_USER=root
+    DB_PASSWD=password

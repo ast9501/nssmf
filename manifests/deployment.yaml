@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oran-nssmf
+  labels:
+    app: nssmf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nssmf
+  template:
+    metadata:
+      labels:
+        app: nssmf
+    spec:
+      containers:
+      - name: nssmf
+        image: registry.gitlab.com/nctuwinlab/o-ran-smo-onos/nssmf-of-ran:latest
+        command: ["./nssmf"]
+        args: ["-c", "config"]
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: config
+          mountPath: "/app/config/nssmf.env"
+          subPath: "nssmf.env"
+          #readOnly: true
+      # access to private registry
+      imagePullSecrets:
+      - name: winlab-reg-smo-onos
+      volumes:
+      # You set volumes at the Pod level, then mount them into containers inside that Pod
+      - name: config
+        configMap:
+          # Provide the name of the ConfigMap you want to mount.
+          name: nssmf-cfg
+          # An array of keys from the ConfigMap to create as files
+          items:
+          - key: "nssmf.env"
+            path: "nssmf.env"
