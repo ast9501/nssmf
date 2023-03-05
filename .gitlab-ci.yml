@@ -49,8 +49,8 @@ helm-package:
   image:
     name: alpine/helm:3.10.2
     entrypoint: [""]
-    #tags: 
-    #- minikube    
+    #tags:
+    #- minikube
   variables:
     CHART: example-chart
     HELM_CHART_ROOT: helm

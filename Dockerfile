@@ -11,7 +11,7 @@ FROM alpine:3.17
 WORKDIR /app
 RUN mkdir -p config/TLS
 
-# copy tls 
+# copy tls
 COPY --from=builder /go/app/config/TLS config/TLS
 
 # copy config
