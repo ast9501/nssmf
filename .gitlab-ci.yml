@@ -44,32 +44,32 @@ docker_build:
   #rules:
   #  - if: $CI_COMMIT_TAG
 
-helm-package:
-  stage: helm-publish
-  image:
-    name: alpine/helm:3.10.2
-    entrypoint: [""]
+#helm-package:
+#  stage: helm-publish
+#  image:
+#    name: alpine/helm:3.10.2
+#    entrypoint: [""]
     #tags:
     #- minikube
-  variables:
-    CHART: example-chart
-    HELM_CHART_ROOT: helm
-  before_script:
-    - apk add git
-    - helm plugin install --version=v0.10.3 https://github.com/chartmuseum/helm-push.git
-    - >
-      helm repo add ${CHART}
-      --username ${CI_REGISTRY_USER}
-      --password ${CI_REGISTRY_PASSWORD}
-      ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/stable
-  script:
-    - helm repo update
-    - helm repo list
-    - helm package ${HELM_CHART_ROOT}/${CHART}
-    - helm cm-push ${CHART}*.tgz ${CHART}
-  only:
-    refs:
-      - main
+#  variables:
+#    CHART: example-chart
+#    HELM_CHART_ROOT: helm
+#  before_script:
+#    - apk add git
+#    - helm plugin install --version=v0.10.3 https://github.com/chartmuseum/helm-push.git
+#    - >
+#      helm repo add ${CHART}
+#      --username ${CI_REGISTRY_USER}
+#      --password ${CI_REGISTRY_PASSWORD}
+#      ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/stable
+#  script:
+#    - helm repo update
+#    - helm repo list
+#    - helm package ${HELM_CHART_ROOT}/${CHART}
+#    - helm cm-push ${CHART}*.tgz ${CHART}
+#  only:
+#    refs:
+#     - main
     #changes:
     #  - .gitlab-ci.yaml
     #  - helm/**/*
@@ -109,6 +109,7 @@ deploy-job:      # This job runs in the deploy stage.
       apt update && apt install git -y
       git clone https://ast9501:${ACCESS_TOKEN}@gitlab.com/nctuwinlab/o-ran-smo-onos/nssmf-of-ran.git
       cd nssmf-of-ran
+      echo ${CI_COMMIT_SHA}
       sed -i '5c\  newTag: ${CI_COMMIT_SHA}' manifests/kustomization.yaml
       git config user.email "gitlab@gitlab.com"
       git config user.name "ci-bot"
