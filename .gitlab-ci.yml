@@ -101,7 +101,15 @@ lint:
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  image:
+    name: ubuntu:20.04
   environment: production
   script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - apt update && apt install git -y
+    - sed -i '5c\  newTag: ${CI_COMMIT_TAG}' manifests/kustomization.yaml
+    - git config --user.email "gitlab@gitlab.com"
+    - git config --user.name "ci-bot"
+    - git add .
+    - git commit -m "Chore, update image tag"
+    - git remote add origin https://ast9501:${ACCESS_TOKEN}@gitlab.com/nctuwinlab/o-ran-smo-onos/nssmf-of-ran.git
+    - git push origin ${CI_COMMIT_BRANCH}
