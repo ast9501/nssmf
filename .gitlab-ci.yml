@@ -113,5 +113,5 @@ deploy-job:      # This job runs in the deploy stage.
       git config user.email "gitlab@gitlab.com"
       git config user.name "ci-bot"
       git add .
-      git commit -m "Chore, update image tag" -o ci.skip # prevent triggering pipeline again
-      git push origin ${CI_COMMIT_BRANCH}
+      git commit -m "Chore, update image tag" 
+      git push origin ${CI_COMMIT_BRANCH} -o ci.skip # prevent triggering pipeline again
