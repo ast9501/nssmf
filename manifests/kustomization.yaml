@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: registry.gitlab.com/nctuwinlab/o-ran-smo-onos/nssmf-of-ran
-  newTag: cc38d8f36ceb295dbcf5ca27d18ae4fcb1b19137
+  newTag: ${CI_COMMIT_TAG}
 resources:
 - configmap.yaml
 - deployment.yaml
