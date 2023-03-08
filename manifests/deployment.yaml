@@ -24,7 +24,7 @@ spec:
         command: ["./nssmf"]
         args: ["-c", "config"]
         ports:
-        - containerPort: 8000
+        - containerPort: 30101
         volumeMounts:
         - name: config
           mountPath: "/app/config/nssmf.env"
